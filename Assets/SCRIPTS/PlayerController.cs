@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform leftPoint;
     [SerializeField] private Transform rightPoint;
     [SerializeField] private Transform FreedomPoint;
+    private Health health;
 
     private bool isMoving = false;
     private Vector2 moveDirection = Vector2.zero;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
+        health = GetComponent<Health>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -96,12 +98,24 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Player hit an enemy!");
             // Handle player damage or game over logic here
+            TakeDamage(20f);
         }
         else if (other.CompareTag("Breakable"))
         {
             Jump();
             other.gameObject.SetActive(false); // Deactivate the breakable platform
         }
+        else if (other.CompareTag("Projectile"))
+        {
+            Debug.Log("Player hit by a projectile!");
+            // Handle player damage or game over logic here
+            TakeDamage(10f);
+        }
+    }
+
+    private void TakeDamage(float damage)
+    {
+        health.TakeDamage(damage);
     }
 
     private void Jump()

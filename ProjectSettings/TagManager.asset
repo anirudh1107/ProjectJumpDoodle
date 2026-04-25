@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - SpringFloor
+  - Breakable
+  - Enemy
+  - Projectile
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX
@@ -14,9 +18,9 @@ TagManager:
   - UI
   - Player
   - SpringFloor
-  - 
-  - 
-  - 
+  - Breakable
+  - Enemy
+  - EnemyProjectile
   - 
   - 
   - 
