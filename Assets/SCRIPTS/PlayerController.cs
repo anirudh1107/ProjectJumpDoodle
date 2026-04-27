@@ -11,8 +11,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform FreedomPoint;
 
     [Header("Boost Settings")]
-    public float boostVerticalVelocity = 20f;
-    public float boostHorizontalMultiplier = 1.5f;
+    [SerializeField]private float boostVerticalVelocity = 20f;
+    [SerializeField] private float boostHorizontalMultiplier = 1.5f;
+    [SerializeField] private float boostDuration = 5f;
+
     private bool isBoosting = false;
     private Health health;
 
@@ -57,11 +59,11 @@ public class PlayerController : MonoBehaviour
         
         if(rb.linearVelocity.y < 0)
         {
-            rb.gravityScale = 2f; // Increase gravity when falling
+            rb.gravityScale = 2f; 
         }
         else
         {
-            rb.gravityScale = 1f; // Normal gravity when rising or grounded
+            rb.gravityScale = 1f; 
         }
 
 
@@ -103,7 +105,6 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Enemy"))
         {
             Debug.Log("Player hit an enemy!");
-            // Handle player damage or game over logic here
             TakeDamage(20f);
         }
         else if (other.CompareTag("Breakable"))
@@ -114,7 +115,6 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Projectile"))
         {
             Debug.Log("Player hit by a projectile!");
-            // Handle player damage or game over logic here
             TakeDamage(10f);
         }
         else if (other.CompareTag("Pickup"))
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
             if(other.GetComponent<JetPack>() != null)
             {
                 other.GetComponent<JetPack>().OnPickedUp();
-                StartCoroutine(BoostRoutine(5f)); // Example: Boost for 5 seconds
+                StartCoroutine(BoostRoutine(boostDuration));
             }
         }
     }
@@ -144,24 +144,17 @@ public class PlayerController : MonoBehaviour
     private IEnumerator BoostRoutine(float duration)
     {
         isBoosting = true;
-        
-        // Store original speed to reset it later
         float originalHorizontalSpeed = moveSpeed;
-        
-        // Apply the buff
         moveSpeed *= boostHorizontalMultiplier;
 
         float elapsed = 0;
         while (elapsed < duration)
         {
-            // Force constant upward velocity every frame
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, boostVerticalVelocity);
             
             elapsed += Time.deltaTime;
-            yield return null; // Wait for next frame
+            yield return null;
         }
-
-        // Reset stats
         moveSpeed = originalHorizontalSpeed;
         isBoosting = false;
     }
