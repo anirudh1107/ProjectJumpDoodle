@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform leftPoint;
     [SerializeField] private Transform rightPoint;
     [SerializeField] private Transform FreedomPoint;
+
+    [Header("Boost Settings")]
+    public float boostVerticalVelocity = 20f;
+    public float boostHorizontalMultiplier = 1.5f;
+    private bool isBoosting = false;
     private Health health;
 
     private bool isMoving = false;
@@ -111,6 +117,16 @@ public class PlayerController : MonoBehaviour
             // Handle player damage or game over logic here
             TakeDamage(10f);
         }
+        else if (other.CompareTag("Pickup"))
+        {
+            Debug.Log("Player picked up a JetPack!");
+
+            if(other.GetComponent<JetPack>() != null)
+            {
+                other.GetComponent<JetPack>().OnPickedUp();
+                StartCoroutine(BoostRoutine(5f)); // Example: Boost for 5 seconds
+            }
+        }
     }
 
     private void TakeDamage(float damage)
@@ -124,6 +140,33 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             
     }
+
+    private IEnumerator BoostRoutine(float duration)
+    {
+        isBoosting = true;
+        
+        // Store original speed to reset it later
+        float originalHorizontalSpeed = moveSpeed;
+        
+        // Apply the buff
+        moveSpeed *= boostHorizontalMultiplier;
+
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            // Force constant upward velocity every frame
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, boostVerticalVelocity);
+            
+            elapsed += Time.deltaTime;
+            yield return null; // Wait for next frame
+        }
+
+        // Reset stats
+        moveSpeed = originalHorizontalSpeed;
+        isBoosting = false;
+    }
+
+
 
     
 }
