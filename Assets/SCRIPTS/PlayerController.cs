@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("SpringFloor"))
         {
+            PlayJumpSound();
             Jump();
         }
         else if (other.CompareTag("Enemy"))
@@ -109,6 +110,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.CompareTag("Breakable"))
         {
+            PlayJumpSound();
             Jump();
             other.gameObject.SetActive(false); // Deactivate the breakable platform
         }
@@ -124,8 +126,15 @@ public class PlayerController : MonoBehaviour
             if(other.GetComponent<JetPack>() != null)
             {
                 other.GetComponent<JetPack>().OnPickedUp();
-                StartCoroutine(BoostRoutine(boostDuration));
+                if((!isBoosting))
+                    StartCoroutine(BoostRoutine(boostDuration));
             }
+        }
+    }
+
+    private void PlayJumpSound() {
+        if(AudioManager._instance != null) {
+            AudioManager._instance.PlayJumpSound();
         }
     }
 

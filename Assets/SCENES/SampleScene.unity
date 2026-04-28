@@ -500,6 +500,7 @@ MonoBehaviour:
   FreedomPoint: {fileID: 228499673}
   boostVerticalVelocity: 20
   boostHorizontalMultiplier: 1.5
+  boostDuration: 5
 --- !u!50 &490157081
 Rigidbody2D:
   serializedVersion: 5
@@ -1369,6 +1370,51 @@ Transform:
   - {fileID: 228499673}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1410614506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1410614508}
+  - component: {fileID: 1410614507}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1410614507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410614506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c7eee557dd95954e9850a947fdb1f97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  soundCollectionSo: {fileID: 11400000, guid: 71b2fd0d3a80f564db74c067b3ef8379, type: 2}
+--- !u!4 &1410614508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410614506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -64.39235, y: 13.21261, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1434215511 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5064810939375137099, guid: 2b88a5e37a246ae44aae26a90ccbc56c, type: 3}
@@ -1850,3 +1896,4 @@ SceneRoots:
   - {fileID: 8893608020721123609}
   - {fileID: 2011786140}
   - {fileID: 1454100261343040546}
+  - {fileID: 1410614508}

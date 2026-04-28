@@ -27,7 +27,6 @@ public class ShootAtTarget : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Shooting projectile");
         Vector3 direction = (target.position - transform.position).normalized;
         // Instantiate and shoot projectile in the direction of the target
         GameObject projectile = EnemyAmmoBox.Instance.getAmmo(1)[0];
