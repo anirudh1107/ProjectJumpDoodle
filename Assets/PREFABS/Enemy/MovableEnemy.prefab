@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6935425555210416287}
   - component: {fileID: 6546739597301930377}
   - component: {fileID: 6534508055659643126}
+  - component: {fileID: 9217652399054197380}
   m_Layer: 9
   m_Name: MovableEnemy
   m_TagString: Enemy
@@ -172,3 +173,16 @@ MonoBehaviour:
   leftPoint: {fileID: 0}
   rightPoint: {fileID: 0}
   moveSpeed: 5
+--- !u!114 &9217652399054197380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8314942142372732215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d93dff9f452e954999d4a30996c2197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelEntity
+  EntityTypeIndex: 0

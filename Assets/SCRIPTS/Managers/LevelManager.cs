@@ -7,6 +7,11 @@ public class LevelManager : MonoBehaviour
     [Header("Architecture")]
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Transform leftBoundry;
+    [SerializeField] private Transform rightBoundry;
+    [SerializeField] private Transform freedomPoint;
+    [SerializeField] private GameObject enemyManager;
+    [SerializeField] private GameObject audioManager;
 
     [Header("Generation Settings")]
     [SerializeField] private float levelWidth = 5f;       // Horizontal bounds for spawning (-5 to 5)
@@ -44,11 +49,26 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         InitializePools();
+        InitializeLevel();
         
+        Time.timeScale = 0f;
         // Generate the initial chunk of the level
         while (highestGeneratedY < preGenerateBuffer)
         {
             SpawnNextPlatform();
+        }
+        Time.timeScale = 1f;
+    }
+
+    private void InitializeLevel()
+    {
+        if(enemyManager != null)
+        {
+            Instantiate(enemyManager, transform);
+        }
+        if(audioManager != null)
+        {
+            Instantiate(audioManager, transform);
         }
     }
 
@@ -86,6 +106,11 @@ public class LevelManager : MonoBehaviour
         
         // Spawn Platform from its specific pool
         GameObject platform = platformPools[platformTypeIndex].Get();
+        if (platform.TryGetComponent<MoveAcrossScreen>(out MoveAcrossScreen mover))
+        {
+            // Set the left and right bounds for the moving platform
+            mover.SetLeftAndRightPoints(leftBoundry, rightBoundry);
+        }
         platform.transform.position = spawnPos;
         // Store the type index in the object's name/tag or a small component so we know which pool to return it to later
         platform.GetComponent<LevelEntity>().EntityTypeIndex = platformTypeIndex; 
@@ -110,6 +135,14 @@ public class LevelManager : MonoBehaviour
             {
                 int enemyTypeIndex = Random.Range(0, enemyPrefabs.Length); // Could also scale enemy type with height
                 GameObject enemy = enemyPools[enemyTypeIndex].Get();
+                if (enemy.TryGetComponent<MoveAcrossScreen>(out MoveAcrossScreen enemyMover))
+                {
+                    enemyMover.SetLeftAndRightPoints(leftBoundry, rightBoundry);
+                }
+                if (enemy.TryGetComponent<ShootAtTarget>(out ShootAtTarget shootTarget))
+                {
+                    shootTarget.SetTarget(playerTransform);
+                }
                 enemy.transform.position = spawnPos + Vector2.up * 1f;
                 enemy.GetComponent<LevelEntity>().EntityTypeIndex = enemyTypeIndex;
                 activeEnemies.Add(enemy);

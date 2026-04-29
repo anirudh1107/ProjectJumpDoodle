@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2297833069009430668}
   - component: {fileID: 3724937286310935844}
   - component: {fileID: 8220075968393126604}
+  - component: {fileID: 1841063210301034219}
   m_Layer: 9
   m_Name: ShootingEnemy
   m_TagString: Enemy
@@ -172,3 +173,16 @@ MonoBehaviour:
   target: {fileID: 0}
   shootInterval: 2
   projectileSpeed: 10
+--- !u!114 &1841063210301034219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7941397886252093617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d93dff9f452e954999d4a30996c2197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelEntity
+  EntityTypeIndex: 0

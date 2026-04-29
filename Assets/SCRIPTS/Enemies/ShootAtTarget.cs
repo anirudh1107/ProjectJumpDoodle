@@ -34,4 +34,9 @@ public class ShootAtTarget : MonoBehaviour
         projectile.SetActive(true);
         projectile.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileSpeed; // Example speed of 10 units per second
     }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+    }
 }

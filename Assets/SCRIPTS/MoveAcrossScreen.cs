@@ -17,6 +17,11 @@ public class MoveAcrossScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (leftPoint == null || rightPoint == null)
+        {
+            Debug.LogWarning("Left and Right points not set for MoveAcrossScreen script on " + gameObject.name);
+            return;
+        }
         transform.Translate(Vector3.right * moveDir * moveSpeed * Time.deltaTime);
         if (transform.position.x < leftPoint.position.x)
         {
@@ -26,5 +31,11 @@ public class MoveAcrossScreen : MonoBehaviour
         {
             moveDir = -1; // Move left
         }
+    }
+
+    public void SetLeftAndRightPoints(Transform left, Transform right)
+    {
+        leftPoint = left;
+        rightPoint = right;
     }
 }

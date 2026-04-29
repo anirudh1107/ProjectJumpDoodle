@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6520934609756249559}
   - component: {fileID: 7081609429719279275}
   - component: {fileID: 162064773284613240}
+  - component: {fileID: 2071266532744663809}
   m_Layer: 7
   m_Name: StaticFloor
   m_TagString: SpringFloor
@@ -166,3 +167,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2071266532744663809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9109507502858193018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d93dff9f452e954999d4a30996c2197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelEntity
+  EntityTypeIndex: 0
