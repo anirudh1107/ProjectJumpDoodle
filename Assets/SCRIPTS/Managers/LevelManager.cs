@@ -46,6 +46,15 @@ public class LevelManager : MonoBehaviour
     private Dictionary<int, ObjectPool<GameObject>> enemyPools;
     private ObjectPool<GameObject> collectiblePool;
 
+    public void Initialize(Transform player, Transform camera, Transform leftBoundary, Transform rightBoundary, Transform freedomPoint)
+    {
+        this.playerTransform = player;
+        this.cameraTransform = camera;
+        this.leftBoundry = leftBoundary;
+        this.rightBoundry = rightBoundary;
+        this.freedomPoint = freedomPoint;
+    }
+
     private void Start()
     {
         InitializePools();

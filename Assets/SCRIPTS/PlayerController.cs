@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         // Handle player death logic here
         Debug.Log("Player has died!");
+        GameManager.Instance.ChangeState(GameState.GameOver);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -140,6 +141,10 @@ public class PlayerController : MonoBehaviour
 
     private void TakeDamage(float damage)
     {
+        if ((health.GetCurrentHealth() - damage) <= 0)
+        {
+            OnDeath();
+        }
         health.TakeDamage(damage);
     }
 
