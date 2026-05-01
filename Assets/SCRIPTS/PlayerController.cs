@@ -173,6 +173,13 @@ public class PlayerController : MonoBehaviour
         isBoosting = false;
     }
 
+    public void SetBoundaries(Transform leftBoundary, Transform rightBoundary, Transform freedomPoint)
+    {
+        leftPoint = leftBoundary;
+        rightPoint = rightBoundary;
+        FreedomPoint = freedomPoint;
+    }
+
 
 
     

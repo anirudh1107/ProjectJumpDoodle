@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class LevelManager : MonoBehaviour
 {
     [Header("Architecture")]
-    [SerializeField] private Transform playerTransform;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject playerFollowerPrefab;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform leftBoundry;
     [SerializeField] private Transform rightBoundry;
@@ -31,10 +33,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] [Range(0, 1)] private float collectibleChance = 0.15f; // Constant 15% chance
     [SerializeField] [Range(0, 1)] private float minEnemyChance = 0.05f;
     [SerializeField] [Range(0, 1)] private float maxEnemyChance = 0.40f;
+    
 
     // --- Internal State ---
     private float highestGeneratedY = 0f;
     private bool isGameOver = false;
+    private float currentScore = 0f;
+    private float originPointY = 0f; // The Y position where the player starts, used to calculate score as height climbed
+    private Transform playerTransform;
 
     // Standard Lists to track active objects in the scene
     private List<GameObject> activePlatforms = new List<GameObject>();
@@ -46,19 +52,36 @@ public class LevelManager : MonoBehaviour
     private Dictionary<int, ObjectPool<GameObject>> enemyPools;
     private ObjectPool<GameObject> collectiblePool;
 
-    public void Initialize(Transform player, Transform camera, Transform leftBoundary, Transform rightBoundary, Transform freedomPoint)
+    public void Initialize(GameObject player, GameObject followCamera, Transform camera, Transform leftBoundary, Transform rightBoundary, Transform freedomPoint)
     {
-        this.playerTransform = player;
+        this.playerPrefab = player;
+        this.playerFollowerPrefab = followCamera;
         this.cameraTransform = camera;
         this.leftBoundry = leftBoundary;
         this.rightBoundry = rightBoundary;
         this.freedomPoint = freedomPoint;
+        activePlatforms.Clear();
+        activeEnemies.Clear();
+        activeCollectibles.Clear();
+        currentScore = 0f;
+        originPointY = freedomPoint.position.y + 5f;
+        highestGeneratedY = originPointY;
     }
 
     private void Start()
     {
         InitializePools();
         InitializeLevel();
+
+        if(playerTransform == null)
+        {
+            playerTransform = Instantiate(playerPrefab, freedomPoint.position + Vector3.up * 5f, Quaternion.identity).transform;
+            playerTransform.GetComponent<PlayerController>().SetBoundaries(leftBoundry, rightBoundry, freedomPoint);
+            Instantiate(platformPools[0].Get(), freedomPoint.position + Vector3.up * 2f, Quaternion.identity, transform); // Spawn an initial platform for the player to stand on
+            CinemachineCamera playerCamera = Instantiate(playerFollowerPrefab, playerTransform.position, Quaternion.identity).GetComponent<CinemachineCamera>();
+            playerCamera.Follow = playerTransform;
+
+        }
         
         Time.timeScale = 0f;
         // Generate the initial chunk of the level
@@ -96,8 +119,10 @@ public class LevelManager : MonoBehaviour
         RecycleObjects(activeEnemies, enemyPools);
         RecycleLevelCollectibles();
 
+        currentScore = Mathf.Max(currentScore, playerTransform.position.y - freedomPoint.position.y);
+
         // 3. Check for Game Over (Player falls below the death zone)
-        if (playerTransform.position.y < cameraTransform.position.y - deathDistance)
+        if (playerTransform.position.y < freedomPoint.position.y)
         {
             TriggerGameOver();
         }
@@ -251,4 +276,9 @@ public class LevelManager : MonoBehaviour
             actionOnRelease: (obj) => obj.SetActive(false),
             defaultCapacity: 10, maxSize: 20);
     }
+
+    public float GetCurrentScore()
+    {
+        return currentScore;
+    } 
 }

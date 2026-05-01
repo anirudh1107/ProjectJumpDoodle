@@ -1,8 +1,15 @@
+using System;
+using TMPro;
 using UnityEngine;
 
 public class MainUIManager : MonoBehaviour
 {
     public static MainUIManager Instance { get; private set; }
+
+    [SerializeField] private GameObject mainMenuPanel;
+    [SerializeField] private GameObject gameoverPanel;
+    [SerializeField] private TMP_Text gameOverScoreText;
+
 
      private void Awake()
     {
@@ -16,14 +23,11 @@ public class MainUIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    [SerializeField] private GameObject mainMenuPanel;
-    [SerializeField] private GameObject GameoverPanel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         mainMenuPanel.SetActive(false);
-        GameoverPanel.SetActive(false);
+        gameoverPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,13 +39,13 @@ public class MainUIManager : MonoBehaviour
     public void ShowMainMenu()
     {
         mainMenuPanel.SetActive(true);
-        GameoverPanel.SetActive(false);
+        gameoverPanel.SetActive(false);
     }
 
     public void ShowGameoverPanel()
     {
         mainMenuPanel.SetActive(false);
-        GameoverPanel.SetActive(true);
+        gameoverPanel.SetActive(true);
     }
 
     public void PlayGame()
@@ -61,10 +65,11 @@ public class MainUIManager : MonoBehaviour
 
     public void HideGameoverPanel()
     {
-        GameoverPanel.SetActive(false);
+        gameoverPanel.SetActive(false);
     }
 
-
-
-
+    public void UpdateGameOverScore(int score)
+    {
+        gameOverScoreText.text = score.ToString("F2");  
+    }
 }

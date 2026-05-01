@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject LevelManagerPrefab;
 
     [Header("Level Maager Settings")]
-    [SerializeField] private Transform player;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerFollowCamera;
     [SerializeField] private Transform Camera;
     [SerializeField] private Transform leftBoundary;
     [SerializeField] private Transform rightBoundary;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private GameState previousState;
     private LevelManager levelManagerInstance;
+    private float previousScore;
 
     private void Awake() {
         if (Instance == null)
@@ -73,8 +75,12 @@ public class GameManager : MonoBehaviour
 
             case GameState.GameStart:
                 Time.timeScale = 1f;
+                if(levelManagerInstance != null)
+                {
+                    Destroy(levelManagerInstance.gameObject);
+                }
                 levelManagerInstance = Instantiate(LevelManagerPrefab).GetComponent<LevelManager>();
-                levelManagerInstance.Initialize(player, Camera, leftBoundary, rightBoundary, freedomPoint);
+                levelManagerInstance.Initialize(player, playerFollowCamera, Camera, leftBoundary, rightBoundary, freedomPoint);
                 break;
 
             case GameState.Pause:
@@ -83,6 +89,8 @@ public class GameManager : MonoBehaviour
 
             case GameState.GameOver:
                 Time.timeScale = 0f;
+                previousScore = levelManagerInstance.GetCurrentScore();
+                MainUIManager.Instance.UpdateGameOverScore(((int)previousScore));
                 MainUIManager.Instance.ShowGameoverPanel();
                 break;
 
@@ -120,19 +128,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-        // private void LoadLevelAdditively(string sceneName)
-        // {
-        //     // Load the scene asynchronously in the background
-        //     AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+    public void SetPreviousScore(float score)
+    {
+        previousScore = score;
+    }
 
-        //     // Once loaded, set it as the active scene so new objects instantiate there, not in the Boot scene
-        //     asyncLoad.completed += (operation) =>
-        //     {
-        //         Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-        //         SceneManager.SetActiveScene(loadedScene);
-        //         Debug.Log($"{sceneName} loaded and set to active.");
-        //     };
-        // }
 }
     
 
