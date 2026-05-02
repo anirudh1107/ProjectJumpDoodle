@@ -5,6 +5,8 @@ using UnityEngine.Pool;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance { get; private set; }
+
     [Header("Architecture")]
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject playerFollowerPrefab;
@@ -36,11 +38,12 @@ public class LevelManager : MonoBehaviour
     
 
     // --- Internal State ---
-    private float highestGeneratedY = 0f;
+    public float highestGeneratedY = 0f;
     private bool isGameOver = false;
     private float currentScore = 0f;
     private float originPointY = 0f; // The Y position where the player starts, used to calculate score as height climbed
     private Transform playerTransform;
+    private CinemachineCamera currentPlayerFollower;
 
     // Standard Lists to track active objects in the scene
     private List<GameObject> activePlatforms = new List<GameObject>();
@@ -52,44 +55,44 @@ public class LevelManager : MonoBehaviour
     private Dictionary<int, ObjectPool<GameObject>> enemyPools;
     private ObjectPool<GameObject> collectiblePool;
 
-    public void Initialize(GameObject player, GameObject followCamera, Transform camera, Transform leftBoundary, Transform rightBoundary, Transform freedomPoint)
+    public void Initialize()
     {
-        this.playerPrefab = player;
-        this.playerFollowerPrefab = followCamera;
-        this.cameraTransform = camera;
-        this.leftBoundry = leftBoundary;
-        this.rightBoundry = rightBoundary;
-        this.freedomPoint = freedomPoint;
-        activePlatforms.Clear();
-        activeEnemies.Clear();
-        activeCollectibles.Clear();
+        Time.timeScale = 0f;
+        DestroyAllActiveObjects();
+        isGameOver = false;
         currentScore = 0f;
-        originPointY = freedomPoint.position.y + 5f;
-        highestGeneratedY = originPointY;
-    }
-
-    private void Start()
-    {
-        InitializePools();
-        InitializeLevel();
+        originPointY = freedomPoint.position.y + 4f;
 
         if(playerTransform == null)
         {
             playerTransform = Instantiate(playerPrefab, freedomPoint.position + Vector3.up * 5f, Quaternion.identity).transform;
             playerTransform.GetComponent<PlayerController>().SetBoundaries(leftBoundry, rightBoundry, freedomPoint);
             Instantiate(platformPools[0].Get(), freedomPoint.position + Vector3.up * 2f, Quaternion.identity, transform); // Spawn an initial platform for the player to stand on
-            CinemachineCamera playerCamera = Instantiate(playerFollowerPrefab, playerTransform.position, Quaternion.identity).GetComponent<CinemachineCamera>();
-            playerCamera.Follow = playerTransform;
+            cameraTransform.position = new Vector3(playerTransform.position.x, playerTransform.position.y, cameraTransform.position.z);
+            currentPlayerFollower = Instantiate(playerFollowerPrefab, playerTransform.position, Quaternion.identity).GetComponent<CinemachineCamera>();
+            currentPlayerFollower.Follow = playerTransform;
+
+
 
         }
-        
-        Time.timeScale = 0f;
-        // Generate the initial chunk of the level
-        while (highestGeneratedY < preGenerateBuffer)
-        {
-            SpawnNextPlatform();
-        }
+        highestGeneratedY = originPointY;
+
         Time.timeScale = 1f;
+    }
+
+     private void Awake() {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        InitializePools();
+        InitializeLevel();
     }
 
     private void InitializeLevel()
@@ -118,6 +121,8 @@ public class LevelManager : MonoBehaviour
         RecycleObjects(activePlatforms, platformPools);
         RecycleObjects(activeEnemies, enemyPools);
         RecycleLevelCollectibles();
+
+        if (playerTransform == null) return; // Player might not be initialized yet
 
         currentScore = Mathf.Max(currentScore, playerTransform.position.y - freedomPoint.position.y);
 
@@ -241,8 +246,9 @@ public class LevelManager : MonoBehaviour
     private void TriggerGameOver()
     {
         isGameOver = true;
-        // if (onGameOverEvent != null)
-        //     onGameOverEvent.RaiseEvent();
+        DestroyPlayer();
+        DestroyAllActiveObjects();
+        GameManager.Instance.ChangeState(GameState.GameOver);
     }
 
     private void InitializePools()
@@ -281,4 +287,36 @@ public class LevelManager : MonoBehaviour
     {
         return currentScore;
     } 
+
+    public void DestroyAllActiveObjects()
+    {
+        DestroyObjectsOfType(activePlatforms, platformPools);
+        DestroyObjectsOfType(activeEnemies, enemyPools);
+        RecycleLevelCollectibles(); // This will handle all active collectibles
+    }
+
+    private void DestroyObjectsOfType(List<GameObject> activeList, Dictionary<int, ObjectPool<GameObject>> pools)
+    {
+        for (int i = activeList.Count - 1; i >= 0; i--)
+        {
+            GameObject obj = activeList[i];
+            int typeIndex = obj.GetComponent<LevelEntity>().EntityTypeIndex;
+            pools[typeIndex].Release(obj);
+            activeList.RemoveAt(i);       
+        }
+    }
+
+    public void DestroyPlayer()
+    {
+        isGameOver = true;
+        if(playerTransform != null)
+        {
+            Destroy(playerTransform.gameObject);
+            playerTransform = null;
+        }
+        if(currentPlayerFollower != null)
+        {
+                Destroy(currentPlayerFollower.gameObject);
+        }
+    }
 }

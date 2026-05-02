@@ -153,13 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d98af76de5b6b04983ffa09676f908d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  LevelManagerPrefab: {fileID: 2560025708286834177, guid: fd268abd384502f4383ab78e93b4bd27, type: 3}
-  player: {fileID: 850471249955883000, guid: ec5e2f8537a2359499b64b873af14550, type: 3}
-  playerFollowCamera: {fileID: 3017487520669987880, guid: a25aca83316a9e74292c3f74056bc214, type: 3}
-  Camera: {fileID: 2032827008}
-  leftBoundary: {fileID: 813358955}
-  rightBoundary: {fileID: 2083117493}
-  freedomPoint: {fileID: 46131042}
+  levelManager: {fileID: 315229712058819102}
 --- !u!4 &216250521
 Transform:
   m_ObjectHideFlags: 0
@@ -850,6 +844,77 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4118568101146504404, guid: 1995a52b8f7df7645ba84f9fd5840a0e, type: 3}
   m_PrefabInstance: {fileID: 894509091}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &315229712058819102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2560025707141147819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c525f2ecd4ea8e540a1be02b9e4d8f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelManager
+  playerPrefab: {fileID: 850471249955883000, guid: ec5e2f8537a2359499b64b873af14550, type: 3}
+  playerFollowerPrefab: {fileID: 3017487520669987880, guid: a25aca83316a9e74292c3f74056bc214, type: 3}
+  cameraTransform: {fileID: 2032827008}
+  leftBoundry: {fileID: 813358955}
+  rightBoundry: {fileID: 2083117493}
+  freedomPoint: {fileID: 46131042}
+  enemyManager: {fileID: 1065471767282324327, guid: 33ec1597aafaea84a8c5784cedd25da5, type: 3}
+  audioManager: {fileID: 3797445353972071199, guid: beb0dac05e3263143b3d5665c3dfbddf, type: 3}
+  levelWidth: 5
+  minJumpGap: 1.5
+  maxJumpGap: 3
+  preGenerateBuffer: 15
+  cleanupDistance: 8
+  deathDistance: 6
+  platformPrefabs:
+  - {fileID: 9109507502858193018, guid: 2b88a5e37a246ae44aae26a90ccbc56c, type: 3}
+  - {fileID: 4077680472860825519, guid: bbfe6dfb27ecbd34ab3f016c996a5dd5, type: 3}
+  - {fileID: 1666141684493633378, guid: 9c61ff93bed60d8409645d0aa3fb4222, type: 3}
+  enemyPrefabs:
+  - {fileID: 8314942142372732215, guid: 44bc0a024575c2840989afea966fb264, type: 3}
+  - {fileID: 7941397886252093617, guid: 29b4f1009e241ec4ebc339359b22798c, type: 3}
+  collectiblePrefab: {fileID: 5366442406716977499, guid: f96550263e20a294fabb9e0504146140, type: 3}
+  maxDifficultyHeight: 500
+  collectibleChance: 0.15
+  minEnemyChance: 0.26
+  maxEnemyChance: 0.704
+  highestGeneratedY: 0
+--- !u!4 &1679699399611284187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2560025707141147819}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.75712, y: 45.15719, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2560025707141147819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1679699399611284187}
+  - component: {fileID: 315229712058819102}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1001 &4890710224856322838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1310,3 +1375,4 @@ SceneRoots:
   - {fileID: 4890710224856322838}
   - {fileID: 1659103371}
   - {fileID: 216250521}
+  - {fileID: 1679699399611284187}

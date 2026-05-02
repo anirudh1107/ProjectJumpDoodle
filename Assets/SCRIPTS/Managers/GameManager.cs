@@ -11,18 +11,9 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Scene Settings")]
-    [SerializeField] private GameObject LevelManagerPrefab;
-
-    [Header("Level Maager Settings")]
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject playerFollowCamera;
-    [SerializeField] private Transform Camera;
-    [SerializeField] private Transform leftBoundary;
-    [SerializeField] private Transform rightBoundary;
-    [SerializeField] private Transform freedomPoint;
+    [SerializeField] private LevelManager levelManager;
 
     private GameState previousState;
-    private LevelManager levelManagerInstance;
     private float previousScore;
 
     private void Awake() {
@@ -75,12 +66,7 @@ public class GameManager : MonoBehaviour
 
             case GameState.GameStart:
                 Time.timeScale = 1f;
-                if(levelManagerInstance != null)
-                {
-                    Destroy(levelManagerInstance.gameObject);
-                }
-                levelManagerInstance = Instantiate(LevelManagerPrefab).GetComponent<LevelManager>();
-                levelManagerInstance.Initialize(player, playerFollowCamera, Camera, leftBoundary, rightBoundary, freedomPoint);
+                levelManager.Initialize();
                 break;
 
             case GameState.Pause:
@@ -89,7 +75,7 @@ public class GameManager : MonoBehaviour
 
             case GameState.GameOver:
                 Time.timeScale = 0f;
-                previousScore = levelManagerInstance.GetCurrentScore();
+                previousScore = levelManager.GetCurrentScore();
                 MainUIManager.Instance.UpdateGameOverScore(((int)previousScore));
                 MainUIManager.Instance.ShowGameoverPanel();
                 break;
@@ -110,7 +96,6 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GameStart:
-                Destroy(levelManagerInstance.gameObject);
                 break;
 
             case GameState.Pause:

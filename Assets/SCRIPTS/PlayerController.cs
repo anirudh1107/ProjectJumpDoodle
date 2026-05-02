@@ -95,6 +95,8 @@ public class PlayerController : MonoBehaviour
     {
         // Handle player death logic here
         Debug.Log("Player has died!");
+        LevelManager.Instance.DestroyPlayer();
+        LevelManager.Instance.DestroyAllActiveObjects();
         GameManager.Instance.ChangeState(GameState.GameOver);
     }
 

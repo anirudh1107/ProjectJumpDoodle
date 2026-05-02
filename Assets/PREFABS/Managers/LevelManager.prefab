@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2560025708286834177}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -64.39235, y: 13.21261, z: 0}
+  m_LocalPosition: {x: 8.75712, y: 45.15719, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c525f2ecd4ea8e540a1be02b9e4d8f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  playerTransform: {fileID: 0}
+  playerPrefab: {fileID: 850471249955883000, guid: ec5e2f8537a2359499b64b873af14550, type: 3}
+  playerFollowerPrefab: {fileID: 3017487520669987880, guid: a25aca83316a9e74292c3f74056bc214, type: 3}
   cameraTransform: {fileID: 0}
   leftBoundry: {fileID: 0}
   rightBoundry: {fileID: 0}
@@ -69,3 +70,4 @@ MonoBehaviour:
   collectibleChance: 0.15
   minEnemyChance: 0.26
   maxEnemyChance: 0.704
+  highestGeneratedY: 0
