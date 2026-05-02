@@ -44,19 +44,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<Health>();
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
-
         HandleMovement();
-       
-        
         if(rb.linearVelocity.y < 0)
         {
             rb.gravityScale = 2f; 
@@ -104,7 +95,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("SpringFloor"))
         {
             PlayJumpSound();
-            Jump();
+            Jump(other);
         }
         else if (other.CompareTag("Enemy"))
         {
@@ -114,7 +105,7 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Breakable"))
         {
             PlayJumpSound();
-            Jump();
+            Jump(other);
             other.gameObject.SetActive(false); // Deactivate the breakable platform
         }
         else if (other.CompareTag("Projectile"))
@@ -150,10 +141,18 @@ public class PlayerController : MonoBehaviour
         health.TakeDamage(damage);
     }
 
-    private void Jump()
+    private void Jump(Collider2D other)
     {
-        rb.linearVelocity = Vector2.zero;
-        rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+        if (rb.linearVelocity.y <= 0.1f)
+        {
+            // This prevents "side-triggering"
+            if (other.transform.position.y < transform.position.y)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            }
+        }
+        
             
     }
 
@@ -181,8 +180,5 @@ public class PlayerController : MonoBehaviour
         rightPoint = rightBoundary;
         FreedomPoint = freedomPoint;
     }
-
-
-
     
 }

@@ -8,13 +8,6 @@ public class MoveAcrossScreen : MonoBehaviour
 
     private int moveDir = 1; // 1 for right, -1 for left
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (leftPoint == null || rightPoint == null)

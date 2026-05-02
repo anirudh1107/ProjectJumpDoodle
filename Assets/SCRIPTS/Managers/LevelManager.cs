@@ -71,12 +71,8 @@ public class LevelManager : MonoBehaviour
             cameraTransform.position = new Vector3(playerTransform.position.x, playerTransform.position.y, cameraTransform.position.z);
             currentPlayerFollower = Instantiate(playerFollowerPrefab, playerTransform.position, Quaternion.identity).GetComponent<CinemachineCamera>();
             currentPlayerFollower.Follow = playerTransform;
-
-
-
         }
         highestGeneratedY = originPointY;
-
         Time.timeScale = 1f;
     }
 
