@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private bool isMoving = false;
     private Vector2 moveDirection = Vector2.zero;
     private Rigidbody2D rb;
+    private Animator playerAnimator;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<Health>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     void Update()
@@ -51,10 +53,12 @@ public class PlayerController : MonoBehaviour
         if(rb.linearVelocity.y < 0)
         {
             rb.gravityScale = 2f; 
+            playerAnimator.SetBool("Landed", true);
         }
         else
         {
             rb.gravityScale = 1f; 
+            playerAnimator.SetBool("Landed", false);
         }
 
 
@@ -95,6 +99,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("SpringFloor"))
         {
             PlayJumpSound();
+            playerAnimator.SetBool("Falling", false);
             Jump(other);
         }
         else if (other.CompareTag("Enemy"))
@@ -105,6 +110,7 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Breakable"))
         {
             PlayJumpSound();
+            playerAnimator.SetBool("Falling", false);
             Jump(other);
             other.gameObject.SetActive(false); // Deactivate the breakable platform
         }

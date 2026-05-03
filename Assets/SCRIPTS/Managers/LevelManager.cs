@@ -26,12 +26,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float deathDistance = 6f;      // Distance below camera where player dies
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject[] platformPrefabs; // 0: Normal, 1: Moving, 2: Breakable, 3: Bouncy
+    [SerializeField] private GameObject[] platformPrefabs; // 0: Normal, 1: Moving, 2: Breakable
+    [SerializeField] private Sprite[] skyPlatformPrefabs; // Variations of platforms that only spawn above a certain height for visual variety
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private GameObject collectiblePrefab;
 
     [Header("Difficulty Scaling")]
     [SerializeField] private float maxDifficultyHeight = 500f; // Height at which game reaches max difficulty
+    [SerializeField] private float skyIslandHeight = 100f; // Height at which we start spawning sky platforms for visual variety
     [SerializeField] [Range(0, 1)] private float collectibleChance = 0.15f; // Constant 15% chance
     [SerializeField] [Range(0, 1)] private float minEnemyChance = 0.05f;
     [SerializeField] [Range(0, 1)] private float maxEnemyChance = 0.40f;
@@ -141,6 +143,15 @@ public class LevelManager : MonoBehaviour
         
         // Spawn Platform from its specific pool
         GameObject platform = platformPools[platformTypeIndex].Get();
+        if (randomY > skyIslandHeight)
+        {
+            // If we're above the sky island height, assign a random sky platform sprite for visual variety
+            SpriteRenderer sr = platform.GetComponent<SpriteRenderer>();
+            if (sr != null && skyPlatformPrefabs.Length > 0)
+            {
+                sr.sprite = skyPlatformPrefabs[platformTypeIndex];
+            }
+        }
         if (platform.TryGetComponent<MoveAcrossScreen>(out MoveAcrossScreen mover))
         {
             // Set the left and right bounds for the moving platform
