@@ -112,7 +112,6 @@ public class PlayerController : MonoBehaviour
             PlayJumpSound();
             playerAnimator.SetBool("Falling", false);
             Jump(other);
-            other.gameObject.SetActive(false); // Deactivate the breakable platform
         }
         else if (other.CompareTag("Projectile"))
         {
@@ -156,6 +155,10 @@ public class PlayerController : MonoBehaviour
             {
                 rb.linearVelocity = Vector2.zero;
                 rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                if (other.CompareTag("Breakable"))
+                {
+                    other.gameObject.SetActive(false);
+                }
             }
         }
         

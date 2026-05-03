@@ -875,9 +875,9 @@ MonoBehaviour:
   - {fileID: 4077680472860825519, guid: bbfe6dfb27ecbd34ab3f016c996a5dd5, type: 3}
   - {fileID: 1666141684493633378, guid: 9c61ff93bed60d8409645d0aa3fb4222, type: 3}
   skyPlatformPrefabs:
-  - {fileID: -7291861513339221007, guid: 4f8ab71b33812ad4984aacc35ccc70f4, type: 3}
-  - {fileID: 6819419954936078875, guid: 2fc4418d32f6b6d46b9594f613bfe6b3, type: 3}
-  - {fileID: 9122930533437446732, guid: 3971b971667f2924c85d9440715f1a4c, type: 3}
+  - {fileID: 21300000, guid: 4f8ab71b33812ad4984aacc35ccc70f4, type: 3}
+  - {fileID: 21300000, guid: 2fc4418d32f6b6d46b9594f613bfe6b3, type: 3}
+  - {fileID: 21300000, guid: 3971b971667f2924c85d9440715f1a4c, type: 3}
   enemyPrefabs:
   - {fileID: 8314942142372732215, guid: 44bc0a024575c2840989afea966fb264, type: 3}
   - {fileID: 7941397886252093617, guid: 29b4f1009e241ec4ebc339359b22798c, type: 3}
