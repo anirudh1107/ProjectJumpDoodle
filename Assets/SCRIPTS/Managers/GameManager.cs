@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
             case GameState.GameStart:
                 Time.timeScale = 1f;
                 levelManager.Initialize();
+                MainUIManager.Instance.ShowHud();
                 break;
 
             case GameState.Pause:

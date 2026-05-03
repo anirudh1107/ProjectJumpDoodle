@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    private float maxHealth = 100f;
+    [SerializeField] private float defaultDamage = 1f;
+    private float maxHealth = 3f;
     private float currentHealth;
 
     void Start()
@@ -19,15 +20,17 @@ public class Health : MonoBehaviour
     public void Heal(float amount)
     {
         currentHealth += amount;
+        MainUIManager.Instance.UpdateHealthDisplay(currentHealth);
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage()
     {
-        currentHealth -= damage;
+        currentHealth -= defaultDamage;
+        MainUIManager.Instance.UpdateHealthDisplay(currentHealth);
         if (currentHealth <= 0)
         {
             Die();

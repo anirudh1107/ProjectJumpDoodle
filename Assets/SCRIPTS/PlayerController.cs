@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Enemy"))
         {
             Debug.Log("Player hit an enemy!");
-            TakeDamage(20f);
+            TakeDamage();
         }
         else if (other.CompareTag("Breakable"))
         {
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Projectile"))
         {
             Debug.Log("Player hit by a projectile!");
-            TakeDamage(10f);
+            TakeDamage();
         }
         else if (other.CompareTag("Pickup"))
         {
@@ -137,13 +137,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TakeDamage(float damage)
+    private void TakeDamage()
     {
-        if ((health.GetCurrentHealth() - damage) <= 0)
+        if ((health.GetCurrentHealth() - 1f) <= 0)
         {
             OnDeath();
         }
-        health.TakeDamage(damage);
+        health.TakeDamage();
     }
 
     private void Jump(Collider2D other)

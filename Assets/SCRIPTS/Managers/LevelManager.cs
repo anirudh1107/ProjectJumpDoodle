@@ -123,6 +123,7 @@ public class LevelManager : MonoBehaviour
         if (playerTransform == null) return; // Player might not be initialized yet
 
         currentScore = Mathf.Max(currentScore, playerTransform.position.y - freedomPoint.position.y);
+        MainUIManager.Instance.UpdateScore((int)currentScore);
 
         // 3. Check for Game Over (Player falls below the death zone)
         if (playerTransform.position.y < freedomPoint.position.y)
