@@ -66,6 +66,16 @@ public class MainUIManager : MonoBehaviour
         GameManager.Instance.ChangeState(GameState.GameStart);
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        GameManager.Instance.ChangeState(GameState.MainMenu);
+    }
+
     public void HideMainMenuPanel()
     {
         mainMenuPanel.SetActive(false);

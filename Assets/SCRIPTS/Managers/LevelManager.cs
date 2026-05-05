@@ -366,5 +366,7 @@ public class LevelManager : MonoBehaviour
         {
                 Destroy(currentPlayerFollower.gameObject);
         }
+
+        cameraTransform.position = new Vector3(0f, freedomPoint.position.y, cameraTransform.position.z);
     }
 }
