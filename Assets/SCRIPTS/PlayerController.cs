@@ -99,7 +99,6 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("SpringFloor"))
         {
             PlayJumpSound();
-            playerAnimator.SetBool("Falling", false);
             Jump(other);
         }
         else if (other.CompareTag("Enemy"))
@@ -110,7 +109,6 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Breakable"))
         {
             PlayJumpSound();
-            playerAnimator.SetBool("Falling", false);
             Jump(other);
         }
         else if (other.CompareTag("Projectile"))

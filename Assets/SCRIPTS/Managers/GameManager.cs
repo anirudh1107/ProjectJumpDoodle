@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GameStart:
+            MainUIManager.Instance.HideHud();
                 break;
 
             case GameState.Pause:

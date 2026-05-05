@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75c5c92bab51a8842b9218a9eff9b7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 4
+  moveSpeed: 6
   jumpForce: 10
   leftPoint: {fileID: 0}
   rightPoint: {fileID: 0}
@@ -311,6 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0128ba5353af94c9b5c872489ca274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
+  defaultDamage: 1
 --- !u!95 &-2159486977097131584
 Animator:
   serializedVersion: 7

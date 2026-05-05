@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
 
     // --- Internal State ---
     public float highestGeneratedY = 0f;
-    private bool isGameOver = false;
+    private bool isGameOver = true;
     private float currentScore = 0f;
     private float originPointY = 0f; // The Y position where the player starts, used to calculate score as height climbed
     private Transform playerTransform;
@@ -64,6 +64,13 @@ public class LevelManager : MonoBehaviour
         isGameOver = false;
         currentScore = 0f;
         originPointY = freedomPoint.position.y + 4f;
+
+        if(playerTransform!= null)
+        {
+            Destroy(playerTransform.gameObject);
+            Destroy(currentPlayerFollower.gameObject);
+            playerTransform = null;
+        }
 
         if(playerTransform == null)
         {
@@ -102,6 +109,18 @@ public class LevelManager : MonoBehaviour
         if(audioManager != null)
         {
             Instantiate(audioManager, transform);
+        }
+    }
+
+    private void Start() {
+        if (isGameOver)
+        {
+            playerTransform = Instantiate(playerPrefab, freedomPoint.position + Vector3.up * 5f, Quaternion.identity).transform;
+            playerTransform.GetComponent<PlayerController>().SetBoundaries(leftBoundry, rightBoundry, freedomPoint);
+            Instantiate(platformPools[0].Get(), freedomPoint.position + Vector3.up * 2f, Quaternion.identity, transform); // Spawn an initial platform for the player to stand on
+            cameraTransform.position = new Vector3(playerTransform.position.x, playerTransform.position.y, cameraTransform.position.z);
+            currentPlayerFollower = Instantiate(playerFollowerPrefab, playerTransform.position, Quaternion.identity).GetComponent<CinemachineCamera>();
+            currentPlayerFollower.Follow = playerTransform;
         }
     }
 

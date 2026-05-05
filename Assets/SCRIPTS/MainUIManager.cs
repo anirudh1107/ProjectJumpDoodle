@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ public class MainUIManager : MonoBehaviour
     [SerializeField] private GameObject HUDPanel;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text gameOverScoreText;
+    [SerializeField] private TMP_Text gameOverSecondaryText;
     [SerializeField] private Image healthPoint1;
     [SerializeField] private Image healthPoint2;
     [SerializeField] private Image healthPoint3;
@@ -82,11 +84,19 @@ public class MainUIManager : MonoBehaviour
     public void UpdateGameOverScore(int score)
     {
         gameOverScoreText.text = score.ToString("F2");  
+        if(score < 100)
+        {
+            gameOverSecondaryText.text = "You almost reached the sky Island, try again!";
+        }
+        else
+        {
+            gameOverSecondaryText.text = "You almost reached the moon";
+        }
     }
 
     public void UpdateScore(int score)
     {
-        scoreText.text = score.ToString("F2 meters");
+        scoreText.text = score.ToString("F2");
     }
 
     public void UpdateHealthDisplay(float currentHealth)
