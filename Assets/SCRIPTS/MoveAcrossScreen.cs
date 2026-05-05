@@ -24,6 +24,11 @@ public class MoveAcrossScreen : MonoBehaviour
         {
             moveDir = -1; // Move left
         }
+        if(moveDir == 1) {
+            transform.localScale = new Vector3(3, 2, 1); // Face right
+        } else {
+            transform.localScale = new Vector3(-3, 2, 1); // Face left
+        }
     }
 
     public void SetLeftAndRightPoints(Transform left, Transform right)

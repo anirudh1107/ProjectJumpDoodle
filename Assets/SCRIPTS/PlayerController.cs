@@ -98,22 +98,19 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("SpringFloor"))
         {
-            PlayJumpSound();
+            
             Jump(other);
         }
-        else if (other.CompareTag("Enemy"))
+        else if (other.CompareTag("Enemy") && !isBoosting)
         {
-            Debug.Log("Player hit an enemy!");
             TakeDamage();
         }
         else if (other.CompareTag("Breakable"))
         {
-            PlayJumpSound();
             Jump(other);
         }
-        else if (other.CompareTag("Projectile"))
+        else if (other.CompareTag("Projectile") && !isBoosting)
         {
-            Debug.Log("Player hit by a projectile!");
             TakeDamage();
         }
         else if (other.CompareTag("Pickup"))
@@ -124,7 +121,14 @@ public class PlayerController : MonoBehaviour
             {
                 other.GetComponent<JetPack>().OnPickedUp();
                 if((!isBoosting))
+                    AudioManager._instance.PlayCollectionSound();
                     StartCoroutine(BoostRoutine(boostDuration));
+            }
+            if(other.GetComponent<HealthPickup>() != null)
+            {
+                other.GetComponent<HealthPickup>().OnPickedUp();
+                health.Heal(1);
+                AudioManager._instance.PlayCollectionSound();
             }
         }
     }
@@ -142,6 +146,7 @@ public class PlayerController : MonoBehaviour
             OnDeath();
         }
         health.TakeDamage();
+        AudioManager._instance.PlayDeathSound();
     }
 
     private void Jump(Collider2D other)
@@ -151,8 +156,10 @@ public class PlayerController : MonoBehaviour
             // This prevents "side-triggering"
             if (other.transform.position.y < transform.position.y)
             {
+                
                 rb.linearVelocity = Vector2.zero;
                 rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                PlayJumpSound();
                 if (other.CompareTag("Breakable"))
                 {
                     other.gameObject.SetActive(false);

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: CollectSound1
   m_EditorClassIdentifier: Assembly-CSharp::SoundSo
   soundType: 0
-  audioClip: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
-  volume: 0
-  pitch: 0.1
+  audioClip: {fileID: 8300000, guid: 21428a559622c3a43abb0e3f23faf335, type: 3}
+  volume: 1
+  pitch: 1
   loop: 0
   pitchRandomization: 0
   pitchRandomizationModifier: 0

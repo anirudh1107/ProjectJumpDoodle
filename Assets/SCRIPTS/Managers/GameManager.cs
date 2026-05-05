@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private GameState previousState;
     private float previousScore;
 
+
     private void Awake() {
         if (Instance == null)
         {
@@ -55,12 +56,16 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1f;
                 // If returning from a game, you would asynchronously unload the level scene here
                 MainUIManager.Instance.ShowMainMenu();
+                AudioManager._instance.StopMusic();
+                AudioManager._instance.PlayMenuMusicTrack();
                 break;
 
             case GameState.GameStart:
                 Time.timeScale = 1f;
                 levelManager.Initialize();
                 MainUIManager.Instance.ShowHud();
+                AudioManager._instance.StopMusic();
+                AudioManager._instance.PlayMusicTrack();
                 break;
 
             case GameState.Pause:
@@ -72,6 +77,8 @@ public class GameManager : MonoBehaviour
                 previousScore = levelManager.GetCurrentScore();
                 MainUIManager.Instance.UpdateGameOverScore(((int)previousScore));
                 MainUIManager.Instance.ShowGameoverPanel();
+                AudioManager._instance.StopMusic();
+                AudioManager._instance.PlayGameoverMusicTrack();
                 break;
 
             case GameState.Leaderboard:

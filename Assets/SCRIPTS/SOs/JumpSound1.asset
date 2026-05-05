@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: JumpSound1
   m_EditorClassIdentifier: Assembly-CSharp::SoundSo
   soundType: 0
-  audioClip: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
-  volume: 0
-  pitch: 0.1
+  audioClip: {fileID: 8300000, guid: dbcb689784613ea4cbf89360bdf265d9, type: 3}
+  volume: 1
+  pitch: 1
   loop: 0
   pitchRandomization: 1
-  pitchRandomizationModifier: 0.757
+  pitchRandomizationModifier: 0.115

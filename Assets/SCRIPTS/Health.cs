@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        MainUIManager.Instance.UpdateHealthDisplay(currentHealth);
     }
 
 

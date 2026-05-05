@@ -29,6 +29,7 @@ public class ShootAtTarget : MonoBehaviour
         }
         Vector3 direction = (target.position - transform.position).normalized;
         // Instantiate and shoot projectile in the direction of the target
+        AudioManager._instance.PlayShootingSound();
         GameObject projectile = EnemyAmmoBox.Instance.getAmmo(1)[0];
         projectile.transform.position = transform.position;
         projectile.SetActive(true);

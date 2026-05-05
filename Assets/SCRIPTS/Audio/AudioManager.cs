@@ -7,12 +7,13 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private SoundCollectionSo soundCollectionSo;
 
+    private GameObject musicObject;
+
     private void Awake() {
         if (_instance != null && _instance != this) {
             Destroy(this.gameObject);
         } else {
             _instance = this;
-            DontDestroyOnLoad(this.gameObject);
         }
     }
 
@@ -36,6 +37,14 @@ public class AudioManager : MonoBehaviour
         PlayRandomSound(soundCollectionSo.MusicTracks);
     }
 
+    public void PlayMenuMusicTrack() {
+        PlayRandomSound(soundCollectionSo.MenuMusicTracks);
+    }
+
+    public void PlayGameoverMusicTrack() {
+        PlayRandomSound(soundCollectionSo.GameoverMusicTracks);
+    }
+
     public void PlayRandomSound(SoundSo[] soundSos) {
         if (soundSos.Length == 0) {
             Debug.LogWarning("No SoundSos provided to PlayRandomSound.");
@@ -54,10 +63,10 @@ public class AudioManager : MonoBehaviour
             pitch += Random.Range(-soundSo.pitchRandomizationModifier, soundSo.pitchRandomizationModifier);
         }
 
-        PlaySound(soundSo.audioClip, soundSo.volume, pitch, soundSo.loop);
+        PlaySound(soundSo.audioClip, soundSo.volume, pitch, soundSo.loop, soundSo.soundType);
     }
 
-    private void PlaySound(AudioClip audioClip, float volume, float pitch, bool loop) {
+    private void PlaySound(AudioClip audioClip, float volume, float pitch, bool loop, SoundType soundType) {
         GameObject soundObject = new GameObject("Sound_" + audioClip.name);
         AudioSource audioSource = soundObject.AddComponent<AudioSource>();
         audioSource.clip = audioClip;
@@ -70,7 +79,20 @@ public class AudioManager : MonoBehaviour
         if(!loop) {
             StartCoroutine(DestroyAudioSourceAfterPlaying(soundObject, audioClip.length));
         }
+        if (soundType == SoundType.Music) {
+            if (musicObject != null) {
+                Destroy(musicObject);
+            }
+            musicObject = soundObject;
+        }
         
+    }
+
+    public void StopMusic() {
+        if (musicObject != null) {
+            Destroy(musicObject);
+            musicObject = null;
+        }
     }
 
     private System.Collections.IEnumerator DestroyAudioSourceAfterPlaying(GameObject soundObject, float clipLength) {

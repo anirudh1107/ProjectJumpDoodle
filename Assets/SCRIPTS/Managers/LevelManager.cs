@@ -30,6 +30,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Sprite[] skyPlatformPrefabs; // Variations of platforms that only spawn above a certain height for visual variety
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private GameObject collectiblePrefab;
+    [SerializeField] private GameObject healthPickupPrefab;
+    [SerializeField] private HeightBoundWall rightWall;
+    [SerializeField] private HeightBoundWall leftWall;
 
     [Header("Difficulty Scaling")]
     [SerializeField] private float maxDifficultyHeight = 500f; // Height at which game reaches max difficulty
@@ -51,11 +54,14 @@ public class LevelManager : MonoBehaviour
     private List<GameObject> activePlatforms = new List<GameObject>();
     private List<GameObject> activeEnemies = new List<GameObject>();
     private List<GameObject> activeCollectibles = new List<GameObject>();
+    private List<GameObject> activeHealthPickups = new List<GameObject>();
 
     // Dictionaries to hold Object Pools for different prefab types
     private Dictionary<int, ObjectPool<GameObject>> platformPools;
     private Dictionary<int, ObjectPool<GameObject>> enemyPools;
     private ObjectPool<GameObject> collectiblePool;
+    private ObjectPool<GameObject> healthPickupPool;
+    private GameObject currentLEvelMusic;
 
     public void Initialize()
     {
@@ -82,6 +88,9 @@ public class LevelManager : MonoBehaviour
             currentPlayerFollower.Follow = playerTransform;
         }
         highestGeneratedY = originPointY;
+        leftWall.gameObject.SetActive(true);
+        rightWall.gameObject.SetActive(true);
+
         Time.timeScale = 1f;
     }
 
@@ -105,10 +114,6 @@ public class LevelManager : MonoBehaviour
         if(enemyManager != null)
         {
             Instantiate(enemyManager, transform);
-        }
-        if(audioManager != null)
-        {
-            Instantiate(audioManager, transform);
         }
     }
 
@@ -186,11 +191,21 @@ public class LevelManager : MonoBehaviour
         bool spawnedCollectible = false;
         if (Random.value <= collectibleChance)
         {
-            GameObject collectible = collectiblePool.Get();
-            // Spawn slightly above the platform
-            collectible.transform.position = spawnPos + Vector2.up * 1f; 
-            activeCollectibles.Add(collectible);
-            spawnedCollectible = true;
+            int collectableTandamizer = Random.Range(0, 2);
+            if(collectableTandamizer == 0)
+            {
+                GameObject healthPickup = healthPickupPool.Get();
+                healthPickup.transform.position = spawnPos + Vector2.up * 1f; 
+                activeHealthPickups.Add(healthPickup);
+            }
+            else
+            {  
+                 GameObject collectible = collectiblePool.Get();
+                collectible.transform.position = spawnPos + Vector2.up * 1f; 
+                activeCollectibles.Add(collectible);
+                spawnedCollectible = true;
+            }
+           
         }
 
         // Try spawning an Enemy (Chance scales with height, don't spawn if a collectible is already there)
@@ -308,6 +323,12 @@ public class LevelManager : MonoBehaviour
             actionOnGet: (obj) => obj.SetActive(true),
             actionOnRelease: (obj) => obj.SetActive(false),
             defaultCapacity: 10, maxSize: 20);
+
+        healthPickupPool = new ObjectPool<GameObject>(
+            createFunc: () => Instantiate(healthPickupPrefab, transform),
+            actionOnGet: (obj) => obj.SetActive(true),
+            actionOnRelease: (obj) => obj.SetActive(false),
+            defaultCapacity: 5, maxSize: 15);
     }
 
     public float GetCurrentScore()

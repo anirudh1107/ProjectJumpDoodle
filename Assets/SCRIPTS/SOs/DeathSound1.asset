@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: DeathSound1
   m_EditorClassIdentifier: Assembly-CSharp::SoundSo
   soundType: 0
-  audioClip: {fileID: 8300000, guid: df729d213c4be44a9b55cd109f5cd4f9, type: 3}
-  volume: 0
-  pitch: 0.1
+  audioClip: {fileID: 8300000, guid: fc80158208dbb1d43bcceea1cbbce8a7, type: 3}
+  volume: 1
+  pitch: 1
   loop: 0
   pitchRandomization: 0
   pitchRandomizationModifier: 0

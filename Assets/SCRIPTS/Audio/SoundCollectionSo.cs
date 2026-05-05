@@ -9,5 +9,7 @@ public class SoundCollectionSo : ScriptableObject
     public SoundSo[] CollectionSounds;
 
     public SoundSo[] MusicTracks;
+    public SoundSo[] MenuMusicTracks;
+    public SoundSo[] GameoverMusicTracks;
     
 }

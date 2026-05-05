@@ -20,4 +20,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1812a8ba7344de2438c0d36a008f5308, type: 2}
   CollectionSounds:
   - {fileID: 11400000, guid: 161eea6d508192d42b0ec38b2be9d208, type: 2}
-  MusicTracks: []
+  MusicTracks:
+  - {fileID: 11400000, guid: 5c14eccacf0ad1f43b43fd3ef605bc1d, type: 2}
+  MenuMusicTracks:
+  - {fileID: 11400000, guid: b1789ba6e453d844fa35e800bb4dd5dc, type: 2}
+  GameoverMusicTracks:
+  - {fileID: 11400000, guid: 35844ad6ed95964438f99903a60ee9bf, type: 2}
